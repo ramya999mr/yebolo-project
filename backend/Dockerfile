@@ -6,7 +6,7 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y build-essential pkg-config libssl-dev
 
 # Copy manifest first for caching
-COPY Cargo.toml Cargo.lock ./
+COPY Cargo.toml ./
 
 # Build dummy to cache dependencies
 RUN mkdir src && echo "fn main() {}" > src/main.rs && cargo build --release && rm -rf src
