@@ -14,7 +14,7 @@ RUN npm install
 COPY . .
 
 # Build frontend
-RUN npm run build
+#RUN npm run build
 
 # Production image
 FROM node:16-alpine
