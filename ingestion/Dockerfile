@@ -1,12 +1,23 @@
-FROM node:18
+# Use a small Node.js image
+FROM node:16-alpine
 
+# Set working directory
 WORKDIR /app
 
-# Copy package.json first if you have dependencies
-COPY package.json package-lock.json* ./
-RUN npm install || true
+# Copy only package.json first (for caching)
+COPY package*.json ./
 
-# Copy the rest of the producer code
+# Install only production dependencies (lighter)
+RUN npm install --production
+
+# Copy rest of the code
 COPY . .
 
-CMD ["node", "index.js", "trades_data.csv"]
+# Build frontend
+RUN npm run build
+
+# Expose port
+EXPOSE 3000
+
+# Start app
+CMD ["npm", "start"]
