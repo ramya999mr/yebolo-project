@@ -1,3 +1,5 @@
+version: "3.9"
+
 services:
   redpanda:
     image: redpandadata/redpanda:v23.3.10
@@ -5,8 +7,10 @@ services:
     command:
       - redpanda start --overprovisioned --smp 1 --memory 1G --reserve-memory 0M --node-id 0 --check=false
     ports:
-      - "9092:9092"
-      - "9644:9644"
+      - "9092:9092" # Kafka broker
+      - "9644:9644" # Admin API
+    networks:
+      - kafka-net
 
   console:
     image: redpandadata/console:v2.3.8
@@ -17,3 +21,41 @@ services:
       - "8080:8080"
     depends_on:
       - redpanda
+    networks:
+      - kafka-net
+
+  ingestion:
+    build: ./ingestion
+    container_name: ingestion
+    environment:
+      - KAFKA_BROKERS=redpanda:9092
+    volumes:
+      - ./trades_data.csv:/app/trades_data.csv
+    depends_on:
+      - redpanda
+    networks:
+      - kafka-net
+
+  backend:
+    build: ./backend
+    container_name: backend
+    environment:
+      - KAFKA_BROKERS=redpanda:9092
+    depends_on:
+      - redpanda
+    networks:
+      - kafka-net
+
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      - kafka-net
+
+networks:
+  kafka-net:
+    driver: bridge
