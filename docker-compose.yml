@@ -45,8 +45,7 @@ services:
       - redpanda
     networks:
       - kafka-net
-    ports:
-      - "5000:5000" # expose backend API (Flask/FastAPI/etc.)
+    
 
   frontend:
     build: ./frontend
