@@ -4,7 +4,7 @@ WORKDIR /app
 
 # Copy dependencies first
 COPY package*.json ./
-RUN npm install
+RUN npm install --only=production
 
 # Copy rest of the frontend code
 COPY . .
