@@ -1,0 +1,9 @@
+{
+  "name": "ingestion",
+  "version": "1.0.0",
+  "main": "index.js",
+  "dependencies": {
+    "kafkajs": "^2.2.4",
+    "csv-parser": "^3.0.0"
+  }
+}
