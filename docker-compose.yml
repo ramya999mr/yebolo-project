@@ -46,7 +46,7 @@ services:
     networks:
       - kafka-net
     ports:
-      -'8080:8080'
+      - "5000:5000" # expose backend API (Flask/FastAPI/etc.)
 
   frontend:
     build: ./frontend
@@ -57,8 +57,6 @@ services:
       - backend
     networks:
       - kafka-net
-    
 
 networks:
   kafka-net:
-    driver: bridge
