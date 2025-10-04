@@ -1,5 +1,5 @@
 # Use a small Node.js image
-FROM node:16-alpine AS builder
+FROM node:16-slim AS builder
 
 # Set working directory
 WORKDIR /app
