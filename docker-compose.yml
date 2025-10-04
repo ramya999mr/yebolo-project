@@ -59,4 +59,4 @@ services:
 
 networks:
   kafka-net:
-  driver:bridge
+    driver:bridge
